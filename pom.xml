@@ -30,6 +30,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <include.groupIds>org.mycore</include.groupIds>
   </properties>
   <pluginRepositories>
     <pluginRepository>
@@ -71,33 +72,95 @@
     </repository>
   </repositories>
   <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-dependency-plugin</artifactId>
-        <version>3.0.0</version>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <id>download them all</id>
-            <goals>
-              <goal>go-offline</goal>
-            </goals>
-          </execution>
-          <execution>
-            <phase>package</phase>
-            <id>purge local downloads</id>
-            <goals>
-              <goal>purge-local-repository</goal>
-            </goals>
-            <configuration>
-              <reResolve>false</reResolve>
-              <verbose>true</verbose>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.0.0</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
+  <profiles>
+    <profile>
+      <id>fetch</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <id>fetch</id>
+                <goals>
+                  <goal>resolve</goal>
+                </goals>
+              </execution>
+              <execution>
+                <phase>package</phase>
+                <id>fetch sources</id>
+                <goals>
+                  <goal>resolve</goal>
+                </goals>
+                <configuration>
+                  <classifier>sources</classifier>
+                  <includeGroupIds>${include.groupIds}</includeGroupIds>
+                </configuration>
+              </execution>
+              <execution>
+                <phase>package</phase>
+                <id>fetch tests</id>
+                <goals>
+                  <goal>resolve</goal>
+                </goals>
+                <configuration>
+                  <classifier>tests</classifier>
+                  <includeGroupIds>${include.groupIds}</includeGroupIds>
+                </configuration>
+              </execution>
+              <execution>
+                <phase>package</phase>
+                <id>fetch test sources</id>
+                <goals>
+                  <goal>resolve</goal>
+                </goals>
+                <configuration>
+                  <classifier>test-sources</classifier>
+                  <includeGroupIds>${include.groupIds}</includeGroupIds>
+                </configuration>
+              </execution>
+            </executions>
+            <configuration>
+              <overWriteSnapshots>true</overWriteSnapshots>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>purge</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <id>purge local snapshots</id>
+                <goals>
+                  <goal>purge-local-repository</goal>
+                </goals>
+                <configuration>
+                  <snapshotsOnly>true</snapshotsOnly>
+                  <reResolve>false</reResolve>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
   <modules>
     <module>mycore-2015.05.0.x</module>
     <module>mycore-2016.06.0.x</module>
