@@ -7,4 +7,4 @@ cache:
   directories:
     - $HOME/.m2/repository
 script:
-  - mvn -B -P!standard-with-extra-repos package 
+  - mvn -B -gs settings.xml -s settings.xml package
