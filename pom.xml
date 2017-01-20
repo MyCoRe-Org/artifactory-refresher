@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.mycore.infrastructure</groupId>
+  <artifactId>artifactory-refresher</artifactId>
+  <version>1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Artifactory Refresher</name>
+  <description>Downloads branch SNAPSHOTs of MyCoRe to refresh download statistics</description>
+  <organization>
+    <name>The MyCoRe Community</name>
+    <url>http://www.mycore.org/</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>GPL</name>
+      <url>http://www.gnu.org/licenses/gpl-2.0.txt</url>
+      <comments>v2 or higher</comments>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:https://github.com/MyCoRe-Org/artifactory-refresher.git</connection>
+    <developerConnection>scm:git:https://github.com/MyCoRe-Org/artifactory-refresher.git</developerConnection>
+    <url>https://github.com/MyCoRe-Org/artifactory-refresher/tree/master</url>
+    <tag>HEAD</tag>
+  </scm>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <name>Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>MyCoRe HQ</id>
+      <url>http://artifactory.mycore.de/mycore-releases</url>
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <id>MyCoRe HQ Snapshots</id>
+      <url>http://artifactory.mycore.de/mycore-snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <id>download them all</id>
+            <goals>
+              <goal>go-offline</goal>
+            </goals>
+          </execution>
+          <execution>
+            <phase>package</phase>
+            <id>purge local downloads</id>
+            <goals>
+              <goal>purge-local-repository</goal>
+            </goals>
+            <configuration>
+              <reResolve>false</reResolve>
+              <verbose>true</verbose>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <modules>
+    <module>mycore-2015.05.0.x</module>
+    <module>mycore-2016.06.0.x</module>
+  </modules>
+</project>

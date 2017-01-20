@@ -1,0 +1,10 @@
+language: java
+sudo: false
+dist: trusty
+group: beta
+install: true
+cache:
+  directories:
+    - $HOME/.m2/repository
+script:
+  - mvn -B -P!standard-with-extra-repos package 

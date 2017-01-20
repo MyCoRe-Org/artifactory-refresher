@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.mycore.infrastructure</groupId>
+    <artifactId>artifactory-refresher</artifactId>
+    <version>1-SNAPSHOT</version>
+  </parent>
+  <artifactId>mycore-2016.06.0.x</artifactId>
+  <version>2016.06.0.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>MyCoRe 2016 LTS</name>
+  <url>https://github.com/MyCoRe-Org/mycore/tree/2016.06.0.x</url>
+  <dependencies>
+    <dependency>
+      <groupId>org.mycore</groupId>
+      <artifactId>mycore-meta</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
+  </dependencies>
+</project>
